@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geolocalización</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        #location {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Obtener Ubicación</h1>
+    <button onclick="getLocation()">Obtener Ubicación</button>
+    <div id="location">La ubicación aparecerá aquí.</div>
+    
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                document.getElementById('location').innerText = "La geolocalización no es compatible con este navegador.";
+            }
+        }
+
+        function showPosition(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            document.getElementById('location').innerText = `Latitud: ${latitude}\nLongitud: ${longitude}`;
+        }
+
+        function showError(error) {
+            let errorMessage;
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    errorMessage = "El usuario negó la solicitud de geolocalización.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    errorMessage = "La información de ubicación no está disponible.";
+                    break;
+                case error.TIMEOUT:
+                    errorMessage = "La solicitud de ubicación ha expirado.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    errorMessage = "Ha ocurrido un error desconocido.";
+                    break;
+            }
+            document.getElementById('location').innerText = errorMessage;
+        }
+    </script>
+</body>
+</html>
